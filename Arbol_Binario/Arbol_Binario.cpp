@@ -11,6 +11,8 @@ struct nodo {
 void menu();
 nodo *crearNodo(int);
 void insertarNodo(nodo*& arbol, int n);
+void mostarArbol(nodo* arbol, int contador);
+bool busqueda(nodo* arbol, int n);
 
 void eliminar(nodo* arbol, int n);
 void eliminar_Nodo(nodo* aux);
@@ -23,11 +25,13 @@ int main(){
 }
 
 void menu() {
-    int dato=0, opcion=0;
+    int dato=0, opcion=0, contador = 0;
 
     do {
         cout << "\tMenu.\n" << endl;
         cout << "1. Insertar nuevo nodo." << endl;
+        cout << "2. Mostrar arbol." << endl;
+        cout << "3. Buscar nodo." << endl;
         cout << "9. Salir." << endl;
 
         cout << "\nDijite una opcion: ";
@@ -41,8 +45,24 @@ void menu() {
             cout << "\nNodo insertado." << endl;
             system("pause");
             break;
-
-
+        case 2:
+            cout << "\nMostar arbol.\n\n ";
+            mostarArbol(arbol, contador);
+            cout << endl;
+            system("pause");
+            break;
+        case 3:
+            cout << "\nDijite el elemneto a buscar: ";
+            cin >> dato;
+            if (busqueda(arbol, dato)) {
+                cout << "\nElemento " << dato << " ah sido encontrado en el arbol" << endl;
+            }
+            else {
+                cout << "\nElemento no encontrado" << endl;
+            }
+            cout << endl;
+            system("pause");
+            break;
         }
         system("cls");
     } while (opcion != 9);
@@ -73,6 +93,40 @@ void insertarNodo(nodo*& arbol, int n) {
         }
     }
 }
+
+void mostarArbol(nodo* arbol, int contador) {
+    if (arbol == NULL) {
+        return;
+    }
+    else {
+        mostarArbol(arbol->derecha, contador + 1);
+        for (int i = 0; i < contador; i++) {
+            cout << "  "; 
+        }
+        cout << arbol->valor << endl;
+        mostarArbol(arbol->izquierda, contador + 1);
+    }
+}
+
+bool busqueda(nodo* arbol, int n) {
+    if (arbol == NULL) {
+        return false;
+    }
+    else if(arbol->valor == n) {
+        return true;
+    }
+    else if(n < arbol->valor) {
+        return busqueda(arbol->izquierda, n);
+    }
+    else {
+        return busqueda(arbol->derecha, n);
+    }
+}
+
+
+
+
+
 
 void eliminar(struct nodo *arbol, int n) {
     if (arbol == NULL) {
