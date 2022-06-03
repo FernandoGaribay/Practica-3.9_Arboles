@@ -1,67 +1,110 @@
 #include <iostream>
-#include <stdlib.h>
-#include <stdio.h>
 
 using namespace std;
 
 struct nodo {
-    struct nodo* padre;
-    struct nodo* izquierda;
-    struct nodo* derecha;
     int valor;
+    nodo* izquierda;
+    nodo* derecha;
 };
 
-struct nodo* crear_Nodo(struct nodo* padre, int valor);
-void agregar_Valor(struct nodo* arbol, int valor);
+void menu();
+nodo *crearNodo(int);
+void insertarNodo(nodo*& arbol, int n);
+
+void eliminar(nodo* arbol, int n);
+void eliminar_Nodo(nodo* aux);
+struct nodo* minimo(nodo *aux);
+
+nodo* arbol = NULL; 
 
 int main(){
-    struct nodo* arbol;
-    arbol = crear_Nodo(NULL, 40);
-    agregar_Valor(arbol, 10);
-    agregar_Valor(arbol, 50);
-    agregar_Valor(arbol, 1);
-    agregar_Valor(arbol, 4);
-    agregar_Valor(arbol, 2);
-    agregar_Valor(arbol, 45);
-    agregar_Valor(arbol, 30);
+    menu();
 }
 
-struct nodo* crear_Nodo(struct nodo* padre, int valor) {
-    struct nodo *n = (struct nodo*)calloc(sizeof(struct nodo),1);
-    n->padre = padre;
-    n->valor = valor;
-    return n; 
+void menu() {
+    int dato=0, opcion=0;
+
+    do {
+        cout << "\tMenu.\n" << endl;
+        cout << "1. Insertar nuevo nodo." << endl;
+        cout << "9. Salir." << endl;
+
+        cout << "\nDijite una opcion: ";
+        cin >> opcion;
+
+        switch (opcion) {
+        case 1: 
+            cout << "\nDijite un numero: ";
+            cin >> dato;
+            insertarNodo(arbol, dato);
+            cout << "\nNodo insertado." << endl;
+            system("pause");
+            break;
+
+
+        }
+        system("cls");
+    } while (opcion != 9);
 }
 
-void agregar_Valor(struct nodo* arbol, int valor) {
-    struct nodo* temp = NULL, * pivote = NULL;
-    int derecho = 0; 
+nodo *crearNodo(int n) {
+    nodo* nuevoNodo = new nodo();
+    
+    nuevoNodo->valor = n;
+    nuevoNodo->derecha = NULL;
+    nuevoNodo->izquierda = NULL;
 
-    if (arbol) {
-        temp = arbol;
-        while (temp != NULL) {
-            pivote = temp;
-            if (valor > temp->valor) {
-                temp = temp->derecha;
-                derecho = 1;
-            }
-            else {
-                temp = temp->izquierda;
-                derecho = 0;
-            }
-        }
-        temp = crear_Nodo(pivote, valor);
-        if (derecho) {
-            cout << "Insertando " << valor << " del lado derecho de " << pivote->valor << endl;
-            pivote->derecha = temp;
-        }
-        else {
-            cout << "Insertando " << valor << " del lado izquierdo de " << pivote->valor << endl;
-            pivote->izquierda = temp;
-        }
+    return nuevoNodo;
+}
+
+void insertarNodo(nodo*& arbol, int n) {
+    if (arbol == NULL) {
+        nodo* nuevoNodo = crearNodo(n);
+        arbol = nuevoNodo;
     }
     else {
-        cout << "Arbol vacio" << endl;
+        int valorRaiz = arbol->valor;
+        if (n < valorRaiz) {
+            insertarNodo(arbol->izquierda, n);
+        }
+        else {
+            insertarNodo(arbol->derecha, n);
+        }
     }
+}
 
+void eliminar(struct nodo *arbol, int n) {
+    if (arbol == NULL) {
+        return;
+    }
+    else if (n < arbol->valor) {
+        eliminar(arbol->izquierda, n);
+    }
+    else if (n > arbol->valor) {
+        eliminar(arbol->derecha, n);
+    }
+    else {
+        eliminar_Nodo(arbol);
+    }
+}
+
+void eliminar_Nodo(struct nodo* aux) {
+    if (aux->izquierda && aux->derecha) {
+        struct nodo* menor = minimo(aux->derecha);
+        aux->valor = menor->valor;
+        eliminar_Nodo(menor);
+    }
+}
+
+struct nodo* minimo(struct nodo* aux) {
+    if (aux == NULL) {
+        return NULL;
+    }
+    if (aux->izquierda) {
+        return minimo(aux->izquierda);
+    }
+    else {
+        return aux;
+    }
 }
