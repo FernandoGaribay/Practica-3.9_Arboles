@@ -16,6 +16,9 @@ CNodo* minimo(CNodo*);
 void remplazar(CNodo*, CNodo*);
 void destruirNodo(CNodo* nodo);
 
+void Borrado_SinHijos(CNodo*& suprimido, CNodo*& raiz);
+bool EsHijoDerecho(CNodo*& hijo);
+
 CNodo* arbol = NULL;
 
 int main(){
@@ -187,9 +190,36 @@ void eliminar_Nodo(CNodo* aux) {
         destruirNodo(aux);
     }
     else {
-        remplazar(aux, NULL);
-        destruirNodo(aux);
+        Borrado_SinHijos(aux, arbol);
     }
+}
+
+void Borrado_SinHijos(CNodo*& suprimido, CNodo*& raiz) {
+
+    if (suprimido->getPadre() != NULL) {//si el nodo a borrar tiene padre
+
+        if (EsHijoDerecho(suprimido)) {//si es un hijo derecho
+            suprimido->getPadre()->setDerecha(NULL);
+        }
+        else {//si en cambio es un hijo izquierdo
+            suprimido->getPadre()->setIzquierda(NULL);
+        }
+
+    }
+    else if (raiz == suprimido) {//si el nodo a borrar es la raiz
+        raiz = NULL;//anulamos a raiz en el caso de que sea el nodo a borrar
+    }
+
+    destruirNodo(suprimido);
+
+}
+
+bool EsHijoDerecho(CNodo*& hijo) {
+    if (hijo->getPadre()->getDerecha() == hijo) {
+        return true;
+    }
+    return false;
+
 }
 
 CNodo* minimo(CNodo* aux) {
