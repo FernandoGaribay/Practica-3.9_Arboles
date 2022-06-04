@@ -1,28 +1,22 @@
 #include <iostream>
+#include "CNodo.h"
 
 using namespace std;
 
-struct nodo {
-    int valor;
-    nodo* izquierda;
-    nodo* derecha;
-    nodo* padre;
-};
 
 void menu();
-nodo *crearNodo(int, nodo*);
-void insertarNodo(nodo*& arbol, int n, nodo*);
-void mostarArbol(nodo* arbol, int contador);
-bool busqueda(nodo* arbol, int n);
-void preOrden(nodo* arbol);
+void insertarNodo(CNodo*&, int, CNodo*);
+void mostarArbol(CNodo*, int);
+bool busqueda(CNodo*, int n);
+void preOrden(CNodo*);
 
-void eliminar(nodo* arbol, int n);
-void eliminar_Nodo(nodo* aux);
-nodo* minimo(nodo *aux);
-void remplazar(nodo*, nodo* );
-void destruirNodo(nodo* nodo);
+void eliminar(CNodo*, int);
+void eliminar_Nodo(CNodo*);
+CNodo* minimo(CNodo*);
+void remplazar(CNodo*, CNodo*);
+void destruirNodo(CNodo* nodo);
 
-nodo* arbol = NULL; 
+CNodo* arbol = NULL;
 
 int main(){
     insertarNodo(arbol, 10, NULL);
@@ -103,70 +97,59 @@ void menu() {
     } while (opcion != 9);
 }
 
-nodo *crearNodo(int n, nodo* padre) {
-    nodo* nuevoNodo = new nodo();
-    
-    nuevoNodo->valor = n;
-    nuevoNodo->derecha = NULL;
-    nuevoNodo->izquierda = NULL;
-    nuevoNodo->padre = padre;
-
-    return nuevoNodo;
-}
-
-void insertarNodo(nodo*& arbol, int n, nodo* padre) {
+void insertarNodo(CNodo*& arbol, int n, CNodo* padre) {
     if (arbol == NULL) {
-        nodo* nuevoNodo = crearNodo(n, padre);
+        CNodo* nuevoNodo = new CNodo(n, padre);
         arbol = nuevoNodo;
     }
     else {
-        int valorRaiz = arbol->valor;
+        int valorRaiz = arbol->getValor();
         if (n < valorRaiz) {
-            insertarNodo(arbol->izquierda, n, arbol);
+            insertarNodo(arbol->getIzquierda(), n, arbol);
         }
         else {
-            insertarNodo(arbol->derecha, n, arbol);
+            insertarNodo(arbol->getDerecha(), n, arbol);
         }
     }
 }
 
-void mostarArbol(nodo* arbol, int contador) {
+void mostarArbol(CNodo* arbol, int contador) {
     if (arbol == NULL) {
         return;
     }
     else {
-        mostarArbol(arbol->derecha, contador + 1);
+        mostarArbol(arbol->getDerecha(), contador + 1);
         for (int i = 0; i < contador; i++) {
             cout << "  "; 
         }
-        cout << arbol->valor << endl;
-        mostarArbol(arbol->izquierda, contador + 1);
+        cout << arbol->getValor() << endl;
+        mostarArbol(arbol->getIzquierda(), contador + 1);
     }
 }
 
-bool busqueda(nodo* arbol, int n) {
+bool busqueda(CNodo* arbol, int n) {
     if (arbol == NULL) {
         return false;
     }
-    else if(arbol->valor == n) {
+    else if(arbol->getValor() == n) {
         return true;
     }
-    else if(n < arbol->valor) {
-        return busqueda(arbol->izquierda, n);
+    else if(n < arbol->getValor()) {
+        return busqueda(arbol->getIzquierda(), n);
     }
     else {
-        return busqueda(arbol->derecha, n);
+        return busqueda(arbol->getDerecha(), n);
     }
 }
 
-void preOrden(nodo* arbol) {
+void preOrden(CNodo* arbol) {
     if (arbol == NULL) {
         return;
     }
     else {
-        cout << arbol->valor << " - ";
-        preOrden(arbol->izquierda);
-        preOrden(arbol->derecha);
+        cout << arbol->getValor() << " - ";
+        preOrden(arbol->getIzquierda());
+        preOrden(arbol->getDerecha());
     }
 }
 
@@ -174,33 +157,33 @@ void preOrden(nodo* arbol) {
 
 
 
-void eliminar(nodo *arbol, int n) {
+void eliminar(CNodo* arbol, int n) {
     if (arbol == NULL) {
         return;
     }
-    else if (n < arbol->valor) {
-        eliminar(arbol->izquierda, n);
+    else if (n < arbol->getValor()) {
+        eliminar(arbol->getIzquierda(), n);
     }
-    else if (n > arbol->valor) {
-        eliminar(arbol->derecha, n);
+    else if (n > arbol->getValor()) {
+        eliminar(arbol->getDerecha(), n);
     }
     else {
         eliminar_Nodo(arbol);
     }
 }
 
-void eliminar_Nodo(nodo* aux) {
-    if (aux->izquierda && aux->derecha) {
-        nodo* menor = minimo(aux->derecha);
-        aux->valor = menor->valor;
+void eliminar_Nodo(CNodo* aux) {
+    if (aux->getIzquierda() && aux->getDerecha()) {
+        CNodo* menor = minimo(aux->getDerecha());
+        aux->setValor(menor->getValor());
         eliminar_Nodo(menor);
     }
-    else if (aux->izquierda) {
-        remplazar(aux, aux->izquierda);
+    else if (aux->getIzquierda()) {
+        remplazar(aux, aux->getIzquierda());
         destruirNodo(aux);
     }
-    else if (aux->derecha) {
-        remplazar(aux, aux->derecha);
+    else if (aux->getDerecha()) {
+        remplazar(aux, aux->getDerecha());
         destruirNodo(aux);
     }
     else {
@@ -209,35 +192,35 @@ void eliminar_Nodo(nodo* aux) {
     }
 }
 
-struct nodo* minimo(nodo* aux) {
+CNodo* minimo(CNodo* aux) {
     if (aux == NULL) {
         return NULL;
     }
-    if (aux->izquierda) {
-        return minimo(aux->izquierda);
+    if (aux->getIzquierda()) {
+        return minimo(aux->getIzquierda());
     }
     else {
         return aux;
     }
 }
 
-void remplazar(nodo* arbol, nodo* nuevoNodo) {
-    if (arbol->padre) {
-        if (arbol->valor == arbol->padre->izquierda->valor) {
-            arbol->padre->izquierda = nuevoNodo;
+void remplazar(CNodo* arbol, CNodo* nuevoNodo) {
+    if (arbol->getPadre()) {
+        if (arbol->getValor() == arbol->getPadre()->getIzquierda()->getValor()) {
+            arbol->getPadre()->setIzquierda(nuevoNodo);
         }
-        else if (arbol->valor == arbol->padre->derecha->valor) {
-            arbol->padre->derecha = nuevoNodo;
+        else if (arbol->getValor() == arbol->getPadre()->getDerecha()->getValor()) {
+            arbol->getPadre()->setDerecha(nuevoNodo);
         }
     }
     if (nuevoNodo) {
-        nuevoNodo->padre = arbol->padre;
+        nuevoNodo->setPadre(arbol->getPadre());
     }
 }
 
-void destruirNodo(nodo* nodo) {
-    nodo->izquierda = NULL;
-    nodo->derecha = NULL;
+void destruirNodo(CNodo* nodo) {
+    nodo->setIzquierda(NULL);
+    nodo->setDerecha(NULL);
 
     delete nodo;
     nodo = NULL;
