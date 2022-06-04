@@ -18,7 +18,7 @@ void preOrden(nodo* arbol);
 
 void eliminar(nodo* arbol, int n);
 void eliminar_Nodo(nodo* aux);
-struct nodo* minimo(nodo *aux);
+nodo* minimo(nodo *aux);
 void remplazar(nodo*, nodo* );
 void destruirNodo(nodo* nodo);
 
@@ -49,6 +49,7 @@ void menu() {
         cout << "3. Buscar nodo." << endl;
         cout << "4. Imprimir los valores (pre-orden)" << endl;
         cout << "5. Eliminar un nodo" << endl;
+        cout << "6. Cantidad de nodos" << endl;
         cout << "9. Salir." << endl;
 
         cout << "\nDijite una opcion: ";
@@ -93,6 +94,10 @@ void menu() {
             cout << endl;
             system("pause");
             break;
+        case 6:
+
+            system("pause");
+            break;
         }
         system("cls");
     } while (opcion != 9);
@@ -117,10 +122,10 @@ void insertarNodo(nodo*& arbol, int n, nodo* padre) {
     else {
         int valorRaiz = arbol->valor;
         if (n < valorRaiz) {
-            insertarNodo(arbol->izquierda, n, padre);
+            insertarNodo(arbol->izquierda, n, arbol);
         }
         else {
-            insertarNodo(arbol->derecha, n, padre);
+            insertarNodo(arbol->derecha, n, arbol);
         }
     }
 }
@@ -168,7 +173,8 @@ void preOrden(nodo* arbol) {
 
 
 
-void eliminar(struct nodo *arbol, int n) {
+
+void eliminar(nodo *arbol, int n) {
     if (arbol == NULL) {
         return;
     }
@@ -183,9 +189,9 @@ void eliminar(struct nodo *arbol, int n) {
     }
 }
 
-void eliminar_Nodo(struct nodo* aux) {
+void eliminar_Nodo(nodo* aux) {
     if (aux->izquierda && aux->derecha) {
-        struct nodo* menor = minimo(aux->derecha);
+        nodo* menor = minimo(aux->derecha);
         aux->valor = menor->valor;
         eliminar_Nodo(menor);
     }
@@ -203,7 +209,7 @@ void eliminar_Nodo(struct nodo* aux) {
     }
 }
 
-struct nodo* minimo(struct nodo* aux) {
+struct nodo* minimo(nodo* aux) {
     if (aux == NULL) {
         return NULL;
     }
