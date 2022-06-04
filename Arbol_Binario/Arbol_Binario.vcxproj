@@ -140,9 +140,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Arbol_Binario.cpp" />
+    <ClCompile Include="CArbol.cpp" />
     <ClCompile Include="CNodo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CArbol.h" />
     <ClInclude Include="CNodo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

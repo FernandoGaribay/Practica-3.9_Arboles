@@ -10,6 +10,8 @@ private:
     CNodo* izquierda;
     CNodo* derecha;
     CNodo* padre;
+
+    friend class CArbol;
 public:
     CNodo(int n, CNodo* padre);
 
