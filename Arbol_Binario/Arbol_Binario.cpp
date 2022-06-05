@@ -191,8 +191,7 @@ void borrarNodoValorMenor(){
 }
 
 
-void insertarArbol()
-{
+void insertarArbol(){
     objArbol.insertarNodo(arbol, 15, NULL);
     objArbol.insertarNodo(arbol, 7, NULL);
     objArbol.insertarNodo(arbol, 18, NULL);
