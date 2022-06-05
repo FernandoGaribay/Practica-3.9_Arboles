@@ -193,15 +193,13 @@ void borrarNodoValorMenor(){
 
 void insertarArbol()
 {
-    objArbol.insertarNodo(arbol, 10, NULL);
-    objArbol.insertarNodo(arbol, 5, NULL);
-    objArbol.insertarNodo(arbol, 3, NULL);
-    objArbol.insertarNodo(arbol, 8, NULL);
-    objArbol.insertarNodo(arbol, 6, NULL);
-    objArbol.insertarNodo(arbol, 9, NULL);
-    objArbol.insertarNodo(arbol, 7, NULL);
     objArbol.insertarNodo(arbol, 15, NULL);
+    objArbol.insertarNodo(arbol, 7, NULL);
+    objArbol.insertarNodo(arbol, 18, NULL);
+    objArbol.insertarNodo(arbol, 5, NULL);
     objArbol.insertarNodo(arbol, 12, NULL);
-    objArbol.insertarNodo(arbol, 20, NULL);
-    objArbol.insertarNodo(arbol, 30, NULL);
+    objArbol.insertarNodo(arbol, 25, NULL);
+    objArbol.insertarNodo(arbol, 10, NULL);
+    objArbol.insertarNodo(arbol, 14, NULL);
+    objArbol.insertarNodo(arbol, 23, NULL);
 }
