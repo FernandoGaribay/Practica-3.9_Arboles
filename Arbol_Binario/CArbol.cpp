@@ -28,7 +28,7 @@ void CArbol::mostarArbol(CNodo* arbol, int contador) {
     else {
         mostarArbol(arbol->getDerecha(), contador + 1);
         for (int i = 0; i < contador; i++) 
-            cout << "  ";
+            cout << "    ";
         
         cout << arbol->getValor() << endl;
         mostarArbol(arbol->getIzquierda(), contador + 1);
