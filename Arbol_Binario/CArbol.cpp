@@ -11,12 +11,11 @@ void CArbol::insertarNodo(CNodo*& arbol, int n, CNodo* padre) {
     }
     else {
         int valorRaiz = arbol->getValor();
-        if (n < valorRaiz) {
+
+        if (n < valorRaiz) 
             insertarNodo(arbol->getIzquierda(), n, arbol);
-        }
-        else {
+        else
             insertarNodo(arbol->getDerecha(), n, arbol);
-        }
     }
 }
 
@@ -26,27 +25,23 @@ void CArbol::mostarArbol(CNodo* arbol, int contador) {
     }
     else {
         mostarArbol(arbol->getDerecha(), contador + 1);
-        for (int i = 0; i < contador; i++) {
+        for (int i = 0; i < contador; i++) 
             cout << "  ";
-        }
+        
         cout << arbol->getValor() << endl;
         mostarArbol(arbol->getIzquierda(), contador + 1);
     }
 }
 
 bool CArbol::busqueda(CNodo* arbol, int n) {
-    if (arbol == NULL) {
+    if (arbol == NULL) 
         return false;
-    }
-    else if (arbol->getValor() == n) {
+    else if (arbol->getValor() == n) 
         return true;
-    }
-    else if (n < arbol->getValor()) {
+    else if (n < arbol->getValor()) 
         return busqueda(arbol->getIzquierda(), n);
-    }
-    else {
+    else
         return busqueda(arbol->getDerecha(), n);
-    }
 }
 
 void CArbol::preOrden(CNodo* arbol) {
@@ -60,23 +55,41 @@ void CArbol::preOrden(CNodo* arbol) {
     }
 }
 
+int CArbol::contarNodos(CNodo* arbol) {
+    if (arbol == NULL)
+        return 0;
+    else
+        return (1 + contarNodos(arbol->getDerecha()) + contarNodos(arbol->getIzquierda()));
+}
 
+int CArbol::contarNodosHoja(CNodo* arbol) {
+    if (arbol == NULL)
+        return 0;
+    if (arbol->getIzquierda() == NULL && arbol->getDerecha() == NULL)
+        return 1;
+    else
+        return contarNodosHoja(arbol->getIzquierda()) + contarNodosHoja(arbol->getDerecha());
+}
 
+int CArbol::alturaArbol(CNodo* nodo){
+    if (nodo == NULL) 
+        return 0;
+    if (alturaArbol(nodo->getDerecha()) > alturaArbol(nodo->getIzquierda()))
+        return alturaArbol(nodo->getDerecha()) + 1;
+    else
+        return alturaArbol(nodo->getIzquierda()) + 1;
+}
 
 
 void CArbol::eliminar(CNodo* arbol, int n) {
-    if (arbol == NULL) {
+    if (arbol == NULL) 
         return;
-    }
-    else if (n < arbol->getValor()) {
+    else if (n < arbol->getValor()) 
         eliminar(arbol->getIzquierda(), n);
-    }
-    else if (n > arbol->getValor()) {
+    else if (n > arbol->getValor()) 
         eliminar(arbol->getDerecha(), n);
-    }
-    else {
+    else 
         eliminar_Nodo(arbol);
-    }
 }
 
 void CArbol::eliminar_Nodo(CNodo* aux) {
@@ -94,62 +107,59 @@ void CArbol::eliminar_Nodo(CNodo* aux) {
         destruirNodo(aux);
     }
     else {
-        Borrado_SinHijos(aux, arbol);
+        borrarNodoHoja(aux, arbol);
     }
+
 }
 
-void CArbol::Borrado_SinHijos(CNodo*& suprimido, CNodo*& raiz) {
+void CArbol::borrarNodoHoja(CNodo*& suprimido, CNodo*& raiz) {
 
-    if (suprimido->getPadre() != NULL) {//si el nodo a borrar tiene padre
-
-        if (EsHijoDerecho(suprimido)) {//si es un hijo derecho
+    if (suprimido->getPadre() != NULL) {
+        if (EsHijoDerecho(suprimido)) 
             suprimido->getPadre()->setDerecha(NULL);
-        }
-        else {//si en cambio es un hijo izquierdo
+        else
             suprimido->getPadre()->setIzquierda(NULL);
-        }
-
     }
-    else if (raiz == suprimido) {//si el nodo a borrar es la raiz
-        raiz = NULL;//anulamos a raiz en el caso de que sea el nodo a borrar
-    }
-
+    else if (raiz == suprimido)
+        raiz = NULL;
+   
     destruirNodo(suprimido);
-
 }
 
 bool CArbol::EsHijoDerecho(CNodo*& hijo) {
-    if (hijo->getPadre()->getDerecha() == hijo) {
+    if (hijo->getPadre()->getDerecha() == hijo)
         return true;
-    }
+ 
     return false;
-
 }
 
 CNodo* CArbol::minimo(CNodo* aux) {
-    if (aux == NULL) {
+    if (aux == NULL) 
         return NULL;
-    }
-    if (aux->getIzquierda()) {
+    if (aux->getIzquierda()) 
         return minimo(aux->getIzquierda());
-    }
-    else {
+    else 
         return aux;
-    }
+}
+
+CNodo* CArbol::maximo(CNodo* aux) {
+    if (aux == NULL)
+        return NULL;
+    if (aux->getDerecha())
+        return maximo(aux->getDerecha());
+    else
+        return aux;
 }
 
 void CArbol::remplazar(CNodo* arbol, CNodo* nuevoNodo) {
     if (arbol->getPadre()) {
-        if (arbol->getValor() == arbol->getPadre()->getIzquierda()->getValor()) {
+        if (arbol->getValor() == arbol->getPadre()->getIzquierda()->getValor()) 
             arbol->getPadre()->setIzquierda(nuevoNodo);
-        }
-        else if (arbol->getValor() == arbol->getPadre()->getDerecha()->getValor()) {
+        else if (arbol->getValor() == arbol->getPadre()->getDerecha()->getValor()) 
             arbol->getPadre()->setDerecha(nuevoNodo);
-        }
     }
-    if (nuevoNodo) {
+    if (nuevoNodo) 
         nuevoNodo->setPadre(arbol->getPadre());
-    }
 }
 
 void CArbol::destruirNodo(CNodo* nodo) {
