@@ -14,6 +14,7 @@ private:
     friend class CArbol;
 public:
     CNodo(int n, CNodo* padre);
+    ~CNodo();
 
     int getValor();
     void setValor(int);

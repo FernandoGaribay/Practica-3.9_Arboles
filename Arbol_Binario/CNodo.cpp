@@ -7,6 +7,8 @@ CNodo::CNodo(int valor, CNodo* padre) {
     this->padre = padre;
 }
 
+CNodo::~CNodo() {}
+
 int CNodo::getValor() {
     return valor;
 }

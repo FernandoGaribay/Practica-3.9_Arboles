@@ -4,6 +4,8 @@ CArbol::CArbol() {
     arbol = NULL;
 }
 
+CArbol:: ~CArbol() {}
+
 void CArbol::insertarNodo(CNodo*& arbol, int n, CNodo* padre) {
     if (arbol == NULL) {
         CNodo* nuevoNodo = new CNodo(n, padre);

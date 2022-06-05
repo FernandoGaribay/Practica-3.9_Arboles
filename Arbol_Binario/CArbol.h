@@ -10,6 +10,7 @@ protected:
 	CNodo* arbol;
 public:
 	CArbol();
+	~CArbol();
 
 	void insertarNodo(CNodo*&, int, CNodo*);
 	void mostarArbol(CNodo*, int);
@@ -29,4 +30,3 @@ public:
 	void borrarNodoHoja(CNodo*& suprimido, CNodo*& raiz);
 	bool EsHijoDerecho(CNodo*& hijo);
 };
-
